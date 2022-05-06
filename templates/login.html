@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        .login{
+            width: 400px;
+            height: 400px;
+            background-color: wheat;
+            justify-content: center;
+            display: flex;
+            margin-top:200px;
+            margin-left:500px;
+
+        }
+        .input{
+            width: 300px;
+            height: 35px;
+            margin-top: 50px;
+            margin-left: 40px;
+        }
+    </style>
+            <script>
+
+
+            function login() {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/login",
+                    data: {id_give: $('#userid').val(), pw_give: $('#userpw').val()},
+                    success: function (response) {
+                        if (response['result'] == 'success') {
+                            $.cookie('mytoken', response['token']);
+
+                            alert('로그인 완료!')
+                            window.location.href = '/'
+                        } else {
+                            // 로그인이 안되면 에러메시지를 띄웁니다.
+                            alert(response['msg'])
+                        }
+                    }
+                })
+            }
+            function register() {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/register",
+                    data: {
+                        id_give: $('#userid').val(),
+                        pw_give: $('#userpw').val(),
+
+                    },
+                    success: function (response) {
+                        if (response['result'] == 'success') {
+                            alert('회원가입이 완료되었습니다.')
+                            window.location.href = '/login'
+                        } else {
+                            alert(response['msg'])
+                        }
+                    }
+                })
+            }
+
+        </script>
+
+</head>
+<body>
+
+<div class="login">
+    <div>
+        <input class="input" id="userid">
+        <input class="input" id="userpw">
+        <button class="input" onclick="register()">회원가입</button>
+        <button class="input" onclick="login()">로그인</button>
+
+    </div>
+    <div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
